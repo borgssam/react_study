@@ -11,7 +11,6 @@ function Header(props){
   </header>;
 }
 
-
 function Article(props){
   return <article>
     <h2 >{props.title}</h2>
@@ -22,10 +21,10 @@ function Nav(props){
   const lis=[   ];
   for(let i = 0; i<props.topics.length; i++){
     let t = props.topics[i];
-    lis.push(<li key={t.id}><a href="/read/{i}" onClick= {
+    lis.push(<li key={t.id}><a id={t.id} href="/read/{i}" onClick= {
       event=>{
         event.preventDefault();
-        props.onChangeMode(event.target.id);}}
+        props.onFunc1(event.target.id);}}
       >{t.title}</a></li>  )
   }
   return <nav>
@@ -43,12 +42,8 @@ function App() {
   ];
   return (
     <div>
-      <Header title="안녕" onChangeMode={function(){
-        alert('안녕');}
-    }></Header>
-      <Nav topics={topics} onChangeMode={function(id){
-        alert(id);
-      }}></Nav>
+      <Header title="안녕" onChangeMode={function(){ alert('안녕');}}></Header>
+      <Nav topics={topics} onFunc1={function(id){  alert(id); }}></Nav>
       <Article title="Welcome" body="Hello, WEB"></Article>       
       <Article title="환영해" body="안녕, 자바스크립트"></Article>          
     </div>
