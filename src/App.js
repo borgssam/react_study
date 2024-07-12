@@ -1,6 +1,15 @@
 import logo from './logo.svg';
 
 import './App.css';
+import {useState} from 'react';
+
+
+function Article(props){
+  return <article>
+    <h2 >{props.title}</h2>
+    {props.body}
+  </article>;
+}
 
 function Header(props){
   return <header>
@@ -9,13 +18,6 @@ function Header(props){
       props.onChangeMode();
     }}>{props.title}</a></h1>
   </header>;
-}
-
-function Article(props){
-  return <article>
-    <h2 >{props.title}</h2>
-    {props.body}
-  </article>;
 }
 function Nav(props){
   const lis=[   ];
@@ -35,17 +37,38 @@ function Nav(props){
 }
 
 function App() {
+  // let _mode = useState("WELCOME");
+  // console.log('_mode => '+_mode);
+  // const mode = _mode[0];
+  // const setMode = _mode[1];
+  const [mode, setMode] = useState('WELCOME');
+  const [id, setId] = useState(null);
+
   const topics = [
     {id:1,title:'html5',body:'html is ...'}, 
     {id:2,title:'css3', body:'css is ....'}, 
     {id:3,title:'js6' , body:'js is .....'}
   ];
+  let content = null;
+  if(mode==='WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB2"></Article>;
+  } else if(mode==='READ'){
+    let title, body;
+    for (let i = 0; i<topics.length; i++){
+      if(topics[i].id === parseInt(id)){
+        title = topics[i].title;
+        body = topics[i].body;
+        break;
+      }
+    }
+    content = <Article title={title} body={body}></Article>;
+
+  }
   return (
     <div>
-      <Header title="안녕" onChangeMode={function(){ alert('안녕');}}></Header>
-      <Nav topics={topics} onFunc1={function(id){  alert(id); }}></Nav>
-      <Article title="Welcome" body="Hello, WEB"></Article>       
-      <Article title="환영해" body="안녕, 자바스크립트"></Article>          
+      <Header title="안녕" onChangeMode={function(){ setMode('WELCOME');}}></Header>
+      <Nav topics={topics} onFunc1={function(_id){  setMode('READ'); setId(_id);}}></Nav>
+      {content}   
     </div>
   );
 }
